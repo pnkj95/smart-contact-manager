@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{normal/user_base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8" />
+	<title th:text="${title}">Profile</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+			<div class="card text-center">
+				
+				<div class="card-body">
+					<img src="" alt="profile photo" th:src="@{'/img/'+${user.imageUrl}}" class="profile-pic" style="height: 200px; width: 200px;" />
+					<h1 class="text-center  mt-2" th:text="${user.name}"></h1>
+					
+						<div class="table-responsive">
+							<table class="table table-hover">
+								<tbody>
+									<tr>
+										<th>#USERID</th>
+										<td>SCMUSER<span th:text="${user.id}"></span></td>
+									</tr>
+									<tr>
+										<th scope="row">Email</th>
+										<td><span th:text="${user.email}"></span></td>
+									</tr>
+									<tr>
+										<th scope="row">Role</th>
+										<td><span th:text="${user.role}"></span></td>
+									</tr>
+									<tr>
+										<th scope="row">Status</th>
+										<td><span th:text="${user.enabled}"></span></td>
+									</tr>
+									<tr>
+										<th scope="row">About</th>
+										<td><span th:text="${user.about}"></span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<!--javascript for sidebar link-->
+		<script>
+			$(document).ready(()  => {
+			$(".item").removeClass("active");
+			$("#profile-link").addClass("active")
+			
+			})
+	</script>
+	</section>	
+</body>
+</html>

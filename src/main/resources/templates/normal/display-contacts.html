@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{normal/user_base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8" />
+	<title th:text="${title}">Display Contacts</title>
+
+</head>
+<body>
+	<section>
+		<div class="card mr-3 ml-3">
+			<div class="card-body">
+				
+				<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
+					<p class="text-center" th:text="${session.message.content}"></p>
+					<th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>			
+				</div>
+				
+				<h1 class="text-center">Your Contacts</h1>
+				
+				<div class="search-container">
+					
+					<div class="input-group">
+				  <div class="form-outline">
+				    <input id="search-input" onkeyup="searchBar()" type="search" class="form-control" placeholder="Search"/>
+				  </div>
+				  <button id="search-button" type="button" class="btn btn-info" onclick="searchBar()">
+				    <i class="fas fa-search"></i>
+				  </button>
+				</div>
+				<div class="search-result mt-2">
+					  
+				  </div>
+					
+				</div>
+				
+				
+				<div class="container mt-3">
+					
+					<table class="table table-hover table-responsive">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">#Id</th>
+							<th scope="col">Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Phone</th>
+							<th scope="col">Work</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="c : ${contacts}">
+							<th scope="row" th:text="${'SCMUSER'+c.id}">1</th>
+							<td><img src="" alt="profile photo" th:src="@{'/img/'+${c.imageUrl}}" class="profile-pic" /><span th:text="${c.firstName}"></span></td>
+							<td><a href="" th:href="@{'/user/'+ ${c.id} +'/contact'}">
+								<span style="" th:text="${c.email}"></span>
+							</a></td>
+							<td th:text="${c.phone}"></td>
+							<td th:text="${c.work}"></td>
+							<td>
+								<a class="btn btn-danger btn-sm" href="#" th:onclick="|deleteContact(${c.id})|">Delete <i class="fa-solid fa-trash"></i></a>
+								<!--<a class="btn btn-danger btn-sm" href="#" th:href="@{'/user/delete/'+${c.id}}">Delete <i class="fa-solid fa-trash"></i></a>-->
+								<form action="" th:action="@{'/user/edit-contact/'+${c.id}}" class="mt-2" method="post">
+								<button class="btn btn-info btn-sm">Edit <i class="fa-sharp fa-solid fa-pen-to-square"></i></button>
+								</form>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+					
+				</div>
+				
+				
+				<!--Start of Pagination-->
+				<nav aria-label="Page navigation example">
+				  <ul class="pagination">
+				    <li th:if="${currentPage != 0}" class="page-item"><a th:href="@{'/user/display/'+ ${currentPage-1}}" class="page-link" href="#">Previous</a></li>
+				    <li th:classappend="${currentPage == i-1} ? 'active' : ''" th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a th:href="@{'/user/display/'+ ${i-1}}" class="page-link" href="#"><span th:text="${i}"></span></a></li>
+				    <li th:if="${currentPage+1 != totalPages}" class="page-item"><a th:href="@{'/user/display/'+ ${currentPage+1}}" class="page-link" href="#">Next</a></li>
+				  </ul>
+				</nav>
+			</div>
+		</div>
+		
+		<!--javascript for sidebar link-->
+		<script>
+			$(document).ready(()  => {
+			$(".item").removeClass("active");
+			$("#view-link").addClass("active")
+			
+			})
+	</script>
+	</section>	
+	
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{normal/user_base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8" />
+	<title th:text="${title}">Details</title>
+</head>
+<body>
+	<section>
+		<div class="card mr-3 ml-3" th:if="${contact}">
+			<div class="card-body">
+				
+				<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
+							<p class="text-center" th:text="${session.message.content}"></p>
+							<th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>			
+						</div>
+				<div class="container text-center">
+					<img src="" alt="profile photo" th:src="@{'/img/'+${contact.imageUrl}}" class="profile-pic" style="height: 200px; width: 200px;" />
+					<h3 class="mt-3"> <span th:text="${contact.firstName}"></span>( <span th:text="${contact.secondName}"></span> )</h3>
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<th scope="row">#ID</th>
+									<td>SCMUSER<span th:text="${contact.id}"></span></td>
+								</tr>
+								<tr>
+									<th scope="row">Email</th>
+									<td><span th:text="${contact.email}"></span></td>
+								</tr>
+								<tr>
+									<th scope="row">Phone</th>
+									<td><span th:text="${contact.phone}"></span></td>
+								</tr>
+								<tr>
+									<th scope="row">Work</th>
+									<td><span th:text="${contact.work}"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="description">
+						<th:block th:utext="${contact.description}"></th:block>
+					</div>
+					<div class="container mt-3">
+						<a href="#" th:onclick="|deleteContact(${contact.id})|" class="btn btn-danger btn-sm">Delete <i class="fa-solid fa-trash"></i></a>
+						<form action="" th:action="@{'/user/edit-contact/'+${contact.id}}" class="mt-2" method="post">
+								<button class="btn btn-primary btn-sm">Edit <i class="fa-sharp fa-solid fa-pen-to-square"></i></button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h1 th:unless="${contact}" class="text-center p-3 mr-3 bg-danger text-white">You don't have permission to view this contact</h1>
+	</section>	
+</body>
+</html>
